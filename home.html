@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Google OAuth Example</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+        .phase1, .phase2 {
+            margin-top: 32px;
+            text-align: center;
+        }
+        .user-info {
+            border: 1px solid #ccc;
+            padding: 16px;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if not user %}
+            
+            <div class="phase1">
+                <a href="{{ url_for('google_login') }}">
+                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png"
+                         alt="Sign in with Google">
+                </a>
+            </div>
+        {% else %}
+            
+            <div class="user-info phase1">
+                {% if user.picture %}
+                    <img src="{{ user.picture }}" alt="Profile Picture" width="80" style="border-radius:50%;">
+                {% endif %}
+                <p>
+                    Hello {{ user.name }}
+                    <a href="{{ url_for('signout') }}" style="margin-left: 10px;">[Sign out]</a>
+                </p>
+                <p>You are signed in with the email {{ user.email }}</p>
+                <p>Current Indian time: <strong>{{ indian_time }}</strong></p>
+            </div>
+
+           
+            <hr>
+            <div class="phase2">
+                <form method="POST">
+                    <label for="num_lines">Number of Lines (1-100):</label>
+                    <input id="num_lines" name="num_lines" type="number" min="1" max="100" required>
+                    <button type="submit">Display</button>
+                </form>
+                {% if error %}
+                    <div style="color:red;margin-top:8px;">{{ error }}</div>
+                {% endif %}
+                {% if output %}
+                    <h3 style="margin-top:24px;">Output:</h3>
+                    <pre>
+{% for line in output %}
+{{ line }}
+{% endfor %}
+                    </pre>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
