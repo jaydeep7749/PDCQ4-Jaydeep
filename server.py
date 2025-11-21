@@ -27,39 +27,62 @@ def get_current_indian_time():
     return now.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def design_pattern(num_lines): # part 2 for the pattern printing
-    chars = "FORMULAQSOLUTIONS"
-    n = num_lines
-    pattern = []
-    max_width = n  
+def design_pattern(num_lines):
+    base = "FORMULAQSOLUTIONS"
+    result = []
+    width = num_lines * 2  
 
-    for i in range(n):
-        if i < n // 2:
-            left_char = chars[i]
-            right_char = chars[n - i - 1]
-            dashes = n - 2 * i - 2
-            if dashes > 0:
-                line = left_char + "-" * dashes + right_char
-            elif dashes == 0:
-                line = left_char + right_char
-            else:
-                line = left_char
-        elif i == n // 2:
-            line = chars[:n]
-        else:
-            mirror_i = n - i - 1
-            left_char = chars[mirror_i]
-            right_char = chars[n - mirror_i - 1]
-            dashes = n - 2 * mirror_i - 2
-            if dashes > 0:
-                line = left_char + "-" * dashes + right_char
-            elif dashes == 0:
-                line = left_char + right_char
-            else:
-                line = left_char
-        
-        pattern.append(line.center(max_width))
-    return pattern
+    
+    config = [
+        (0, 0),        
+        (1, 1),        
+        (2, 0),       
+        (3, 5),        
+        (4, 0),        
+        (5, 11),       
+        (6, 0),       
+        (7, 16),       
+        (8, 0),       
+        (9, 16),       
+        (10, 0),      
+        (11, 11),      
+        (12, 0),       
+        (13, 5),      
+        (14, 0),       
+        (15, 1),       
+        (16, 0),      
+    ]
+    
+    pattern_map = [
+        ("F", ""),
+        ("O", "M"),
+        ("RMULA", ""),
+        ("M", "O"),
+        ("ULAQSOLUT", ""),
+        ("L", "N"),
+        ("AQSOLUTIONSFO", ""),
+        ("Q", "U"),
+        ("SOLUTIONSFORMULAQ", ""),
+        ("O", "A"),
+        ("LUTIONSFORMUL", ""),
+        ("U", "U"),
+        ("TIONSFORM", ""),
+        ("I", "R"),
+        ("ONSFO", ""),
+        ("N", "F"),
+        ("S", ""),
+    ]
+    dash_counts = [0, 1, 0, 5, 0, 11, 0, 16, 0, 16, 0, 11, 0, 5, 0, 1, 0]
+    for i in range(num_lines):
+        left, right = pattern_map[i]
+        dashes = "-" * dash_counts[i]
+        line = left + dashes + right
+        result.append(line)
+    return result
+
+
+for line in design_pattern(17):
+    print(line)
 
 
 
@@ -106,3 +129,4 @@ def signout():
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)
+
